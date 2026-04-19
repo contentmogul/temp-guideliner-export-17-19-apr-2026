@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Guideliner | Ad Performance | Apr 17–19 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f0f2f5;color:#1a1a2e;font-size:12px}
+header{background:#1a1a2e;color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+header h1{font-size:15px;font-weight:700}
+header span{font-size:11px;color:#8899bb}
+
+/* ---- TOOLTIP ---- */
+.tip-wrap{display:inline-block;position:relative;cursor:help;margin-left:4px;vertical-align:middle}
+.tip-icon{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:#8899bb;color:#fff;font-size:9px;font-weight:700;line-height:1}
+.tip-box{display:none;position:absolute;z-index:999;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1a1a2e;color:#e8eaf0;font-size:11px;line-height:1.5;padding:8px 10px;border-radius:6px;width:240px;font-weight:400;pointer-events:none;white-space:normal}
+.tip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1a1a2e}
+.tip-wrap:hover .tip-box{display:block}
+
+/* ---- SECTION LABELS ---- */
+.section-label{font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:#6677aa;padding:14px 20px 6px;display:flex;align-items:center;gap:6px}
+.section-label::after{content:'';flex:1;height:1px;background:#dde2ee}
+
+/* ---- KPI BARS ---- */
+.kpi-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;padding:4px 20px 14px}
+.kpi{background:#fff;border-radius:8px;padding:11px 14px;border:0.5px solid #dde2ee}
+.kpi-label{font-size:10px;color:#7788aa;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;display:flex;align-items:center}
+.kpi-value{font-size:19px;font-weight:700;color:#1a1a2e}
+.kpi-sub{font-size:10px;color:#aab;margin-top:2px}
+.kpi.meta .kpi-label{color:#0d6efd}
+.kpi.cm-meta .kpi-label{color:#0a7a4a}
+.kpi.blended .kpi-label{color:#7c4dcc}
+.kpi.other .kpi-label{color:#d97706}
+
+/* ---- CHANNEL TABLE ---- */
+.ch-wrap{padding:0 20px 14px;overflow-x:auto}
+.ch-table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;border:0.5px solid #dde2ee;font-size:11px}
+.ch-table thead th{background:#1a1a2e;color:#fff;padding:8px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.4px}
+.ch-table thead th.num{text-align:right}
+.ch-table tbody tr{border-bottom:0.5px solid #f0f2f5}
+.ch-table tbody tr:last-child{border-bottom:none}
+.ch-table td{padding:8px 12px;vertical-align:middle}
+.ch-table td.num{text-align:right;font-variant-numeric:tabular-nums}
+.ch-total td{background:#f0f2f5;font-weight:700;border-top:1px solid #dde}
+.src-badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;margin-right:4px}
+.src-meta{background:#dbeafe;color:#1d4ed8}
+.src-other{background:#f3f4f6;color:#555}
+.bar-wrap{width:80px;display:inline-block;vertical-align:middle;margin-left:8px}
+.bar-bg{background:#e8eaf0;border-radius:3px;height:6px;width:100%}
+.bar-fill-meta{background:#0d6efd;border-radius:3px;height:6px}
+.bar-fill-other{background:#94a3b8;border-radius:3px;height:6px}
+
+/* ---- CONTROLS ---- */
+.controls{padding:9px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff;border-bottom:0.5px solid #dde;border-top:0.5px solid #dde}
+.controls label{font-size:11px;color:#446;font-weight:600}
+.controls select,.controls input[type=number]{border:0.5px solid #ccd;border-radius:5px;padding:5px 8px;font-size:11px;background:#fff;color:#1a1a2e;outline:none}
+.controls input[type=checkbox]{accent-color:#0f3460}
+
+/* ---- MAIN TABLE ---- */
+.table-wrap{padding:0 20px 32px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;border:0.5px solid #dde2ee;min-width:1380px}
+thead tr.g-row th{padding:6px 8px;font-size:10px;font-weight:700;letter-spacing:.5px;text-align:center;color:#fff;white-space:nowrap}
+th.g-deliv{background:#2c3e6e}
+th.g-meta{background:#0d5199}
+th.g-cm{background:#0a6640}
+thead tr.h-row th{background:#1a1a2e;color:#fff;padding:7px 8px;text-align:left;font-size:10px;font-weight:600;letter-spacing:.3px;white-space:nowrap;cursor:pointer;user-select:none}
+thead tr.h-row th.num{text-align:right}
+thead tr.h-row th:hover{background:#2e3f70}
+thead tr.h-row th.s-asc::after{content:' ↑'}
+thead tr.h-row th.s-desc::after{content:' ↓'}
+tbody tr{border-bottom:0.5px solid #f0f2f5}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover td{background:#f4f6ff!important}
+td{padding:7px 8px;vertical-align:middle}
+td.name-cell{font-weight:600;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.expand-btn{background:none;border:none;cursor:pointer;padding:1px 4px;border-radius:3px;font-size:11px;color:#0f3460;margin-right:3px;font-weight:700;display:inline-block;width:16px;text-align:center}
+.expand-btn:hover{background:#deeeff}
+.level-campaign td{background:#fff}
+.level-adset td{background:#f6f8fd}
+.level-adset td.name-cell{padding-left:24px;font-weight:500}
+.level-ad td{background:#fafbff;font-size:10.5px}
+.level-ad td.name-cell{padding-left:44px;font-weight:400;color:#445}
+.rg{color:#0a6640;font-weight:700}
+.ro{color:#b36000;font-weight:700}
+.rb{color:#b52a2a;font-weight:700}
+.num{text-align:right}
+td.num{font-variant-numeric:tabular-nums}
+.total-row td{background:#1a1a2e!important;color:#fff;font-weight:700;border-top:2px solid #0f3460}
+.total-row td.rg,.total-row td.ro{color:#6ee8b4}
+.total-row td.rb{color:#ffaaaa}
+.pill{display:inline-block;background:#e8f0fe;color:#1a56cc;border-radius:8px;padding:0px 5px;font-size:9px;font-weight:700;margin-left:3px;vertical-align:middle}
+.pg{background:#e6f5ec;color:#0a6640}
+.div-m{border-left:2px solid #9bbde8}
+.div-c{border-left:2px solid #7ecfaa}
+.badge{display:inline-block;padding:1px 5px;border-radius:4px;font-size:9px;font-weight:600;vertical-align:middle;margin-left:3px}
+.b-active{background:#e6f5ec;color:#0a5c2a}
+.b-inactive{background:#fff3e0;color:#b35000}
+.b-archived{background:#f0f0f0;color:#666}
+.b-nd{background:#fdecea;color:#991111}
+
+/* ---- EXPLAINER BOX ---- */
+.explainer{background:#fff;border:0.5px solid #dde2ee;border-radius:10px;margin:0 20px 14px;padding:14px 18px}
+.explainer h3{font-size:12px;font-weight:700;color:#1a1a2e;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.explainer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.exp-card{background:#f8f9fd;border-radius:7px;padding:10px 12px;border-left:3px solid #dde}
+.exp-card.meta{border-left-color:#0d6efd}
+.exp-card.cm{border-left-color:#0a7a4a}
+.exp-card.blended{border-left-color:#7c4dcc}
+.exp-card h4{font-size:11px;font-weight:700;margin-bottom:4px}
+.exp-card p{font-size:10.5px;color:#556;line-height:1.5}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>The Guideliner — Ad Performance Dashboard</h1>
+  <span>Apr 17–19, 2026 &nbsp;·&nbsp; Meta Ads Manager + ClickMagick &nbsp;·&nbsp; All figures AUD</span>
+</header>
+
+<!-- EXPLAINER SECTION -->
+<div class="section-label">How to read this report</div>
+<div class="explainer">
+  <div class="explainer-grid">
+    <div class="exp-card meta">
+      <h4>Meta Ads Manager (blue columns)</h4>
+      <p>Purchase and revenue data reported directly by Meta using a <strong>7-day click + 1-day view</strong> attribution window. Meta counts a conversion if a customer clicked or viewed an ad within that window — even if they later converted via another channel. This tends to <strong>over-attribute</strong> revenue to Meta.</p>
+    </div>
+    <div class="exp-card cm">
+      <h4>ClickMagick — Meta sources only (green columns)</h4>
+      <p>ClickMagick tracks actual clicks and records the <strong>last paid click</strong> before purchase. The CM columns in the campaign table show only purchases attributed to Meta placements (sources: fb, ig, facebook, an, th). This is a more conservative, last-click view and will typically be <strong>lower</strong> than what Meta reports.</p>
+    </div>
+    <div class="exp-card blended">
+      <h4>Blended ROAS (channel summary)</h4>
+      <p>The blended ROAS divides <strong>all CM revenue</strong> (every source — organic, Google, Meta, and other) by the Meta ad spend. This is the number ClickMagick shows at the top of its dashboard (1.93x). It reflects total business revenue generated during the period while Meta was running, not revenue directly caused by Meta.</p>
+    </div>
+    <div class="exp-card" style="border-left-color:#d97706">
+      <h4>Why do Meta ROAS and CM ROAS differ so much?</h4>
+      <p>Meta's 7-day window claims sales that happened days after the ad interaction — including sales driven by email, organic search, or direct revisits. CM only credits the last click. Neither is perfectly "true"; together they give you upper and lower bounds on Meta's actual contribution.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CM CHANNEL BREAKDOWN -->
+<div class="section-label">ClickMagick — all channel breakdown
+  <span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-box">Revenue and orders from every traffic source tracked by ClickMagick in this period. Meta sources (fb, ig, facebook, an, th) are highlighted in blue. Blended ROAS = all CM revenue ÷ Meta ad spend.</span></span>
+</div>
+<div class="ch-wrap">
+  <table class="ch-table" id="chTable"></table>
+</div>
+
+<!-- META ADS MANAGER TOP-LINE -->
+<div class="section-label">Meta Ads Manager — top-line summary</div>
+<div class="kpi-bar" id="kpisMeta"></div>
+
+<!-- CM META-ONLY TOP-LINE -->
+<div class="section-label">ClickMagick — Meta sources only (fb · ig · facebook · an · th)</div>
+<div class="kpi-bar" id="kpisCM"></div>
+
+<!-- CAMPAIGN TABLE -->
+<div class="section-label">Campaign / adset / ad breakdown</div>
+<div class="controls">
+  <label>Sort:</label>
+  <select id="sortCol" onchange="render()">
+    <option value="spend">Spend</option>
+    <option value="impressions">Impressions</option>
+    <option value="reach">Reach</option>
+    <option value="meta_purchases">Meta Purchases</option>
+    <option value="meta_revenue">Meta Revenue</option>
+    <option value="meta_roas">Meta ROAS</option>
+    <option value="cm_purchases">CM Purchases</option>
+    <option value="cm_revenue">CM Revenue</option>
+    <option value="cm_roas">CM ROAS</option>
+  </select>
+  <select id="sortDir" onchange="render()">
+    <option value="desc">High → Low</option>
+    <option value="asc">Low → High</option>
+  </select>
+  <label style="margin-left:8px">Campaign:</label>
+  <select id="campFilter" onchange="render()"><option value="">All</option></select>
+  <label style="margin-left:8px">Min spend:</label>
+  <input type="number" id="minSpend" value="0" min="0" step="1" style="width:68px" onchange="render()">
+  <label style="margin-left:8px">Hide zero-spend ads:</label>
+  <input type="checkbox" id="hideZero" onchange="render()">
+  <label style="margin-left:8px">Expand all:</label>
+  <input type="checkbox" id="expandAll" onchange="toggleExpandAll()">
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+  <tr class="g-row">
+    <th class="g-deliv" style="text-align:left" colspan="6">DELIVERY
+      <span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-box">Spend, reach, impressions and frequency from Meta Ads Manager. Delivery status shown at ad level only.</span></span>
+    </th>
+    <th class="g-meta div-m" colspan="5">META ADS MANAGER — 7-DAY ATTRIBUTED
+      <span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-box">Meta's own reported purchases and revenue using a 7-day click / 1-day view window. Likely over-attributes due to view-through counting.</span></span>
+    </th>
+    <th class="g-cm div-c" colspan="5">CLICKMAGICK — LAST-CLICK (META SOURCES ONLY)
+      <span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-box">ClickMagick conversions where utm_source is fb, ig, facebook, an, or th — joined to these campaigns via the cmc_tid ad ID. Last-click attribution only.</span></span>
+    </th>
+  </tr>
+  <tr class="h-row">
+    <th style="min-width:200px">Name</th>
+    <th class="num">Spend</th>
+    <th class="num">Reach</th>
+    <th class="num">Impr.</th>
+    <th class="num">Freq.</th>
+    <th class="num">Status</th>
+    <th class="num div-m">Purchases</th>
+    <th class="num">Revenue</th>
+    <th class="num">ROAS</th>
+    <th class="num">CPR</th>
+    <th class="num">AOV</th>
+    <th class="num div-c">Purchases</th>
+    <th class="num">Revenue</th>
+    <th class="num">ROAS</th>
+    <th class="num">CPA</th>
+    <th class="num">AOV</th>
+  </tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+</div>
+
+<script>
+const HIER=[{"name":"TOF US CBO","spend":2104.45,"reach":32451,"impressions":36740,"meta_purchases":37,"meta_revenue":4126.6,"cm_purchases":28,"cm_revenue":2970.07,"adsets":[{"name":"Best Performers | Broad | F | US","spend":1959.11,"reach":30079,"impressions":33679,"meta_purchases":37,"meta_revenue":4126.6,"cm_purchases":27,"cm_revenue":2911.35,"ads":[{"name":"Full Tutorial BRoll edit TOF","spend":1543.31,"reach":20741,"impressions":22139,"frequency":1.07,"delivery":"active","meta_purchases":30,"meta_revenue":3372.94,"meta_cpr":51.44,"cm_purchases":22,"cm_revenue":2366.95},{"name":"AF-FB Comment - US","spend":106.54,"reach":2516,"impressions":3602,"frequency":1.43,"delivery":"active","meta_purchases":4,"meta_revenue":398.82,"meta_cpr":26.64,"cm_purchases":2,"cm_revenue":215.37},{"name":"Founder Story Charlie POV","spend":94.57,"reach":1977,"impressions":2020,"frequency":1.02,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"GLs falling","spend":66.78,"reach":1571,"impressions":1976,"frequency":1.26,"delivery":"active","meta_purchases":2,"meta_revenue":226.36,"meta_cpr":33.39,"cm_purchases":0,"cm_revenue":0},{"name":"TOF Glasses","spend":44.83,"reach":809,"impressions":891,"frequency":1.1,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"GL hand","spend":37.16,"reach":1046,"impressions":1364,"frequency":1.3,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":2,"cm_revenue":201.17},{"name":"TOF_Cotton Pad Graveyard","spend":26.7,"reach":634,"impressions":750,"frequency":1.18,"delivery":"active","meta_purchases":1,"meta_revenue":128.48,"meta_cpr":26.7,"cm_purchases":1,"cm_revenue":127.86},{"name":"Us v Them - Kylie","spend":18.99,"reach":559,"impressions":614,"frequency":1.1,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Liv Video","spend":14.52,"reach":138,"impressions":229,"frequency":1.66,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Wig Danny POV Overlay CC – Copy","spend":5.06,"reach":68,"impressions":70,"frequency":1.03,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Callout - Nic","spend":0.65,"reach":20,"impressions":24,"frequency":1.2,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]},{"name":"Consolidated Testing Creatives | F | US","spend":145.34,"reach":2372,"impressions":3061,"meta_purchases":0,"meta_revenue":0,"cm_purchases":1,"cm_revenue":58.72,"ads":[{"name":"TOF_Hooded Eyes_Charlie","spend":64.61,"reach":972,"impressions":1205,"frequency":1.24,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Hooded Eyes - Iz","spend":56.81,"reach":876,"impressions":1165,"frequency":1.33,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"TOF_Liquid","spend":11.88,"reach":319,"impressions":422,"frequency":1.32,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":1,"cm_revenue":58.72},{"name":"TOF_Replying to comment","spend":9.02,"reach":113,"impressions":162,"frequency":1.43,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"AF-this close","spend":1.56,"reach":49,"impressions":63,"frequency":1.29,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"AF-B4 After","spend":1.19,"reach":33,"impressions":34,"frequency":1.03,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"TOF_Fiance Makeup","spend":0.27,"reach":10,"impressions":10,"frequency":1.0,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]}]},{"name":"AF | CAN CBO","spend":777.88,"reach":25363,"impressions":32340,"meta_purchases":11,"meta_revenue":932.13,"cm_purchases":6,"cm_revenue":444.37,"adsets":[{"name":"Best Performers | Broad | F | CAN","spend":756.93,"reach":24837,"impressions":31541,"meta_purchases":11,"meta_revenue":932.13,"cm_purchases":6,"cm_revenue":444.37,"ads":[{"name":"Full Tutorial BRoll edit TOF","spend":576.52,"reach":18699,"impressions":21984,"frequency":1.18,"delivery":"active","meta_purchases":9,"meta_revenue":678.4,"meta_cpr":64.06,"cm_purchases":6,"cm_revenue":444.37},{"name":"Waterproof 30% OFF","spend":60.32,"reach":1666,"impressions":3639,"frequency":2.18,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"TOF Glasses","spend":57.22,"reach":2266,"impressions":2582,"frequency":1.14,"delivery":"active","meta_purchases":1,"meta_revenue":151.28,"meta_cpr":57.22,"cm_purchases":0,"cm_revenue":0},{"name":"TOF_Replying to comment","spend":22.87,"reach":723,"impressions":1006,"frequency":1.39,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Bday Cake 30% Off","spend":19.53,"reach":640,"impressions":1190,"frequency":1.86,"delivery":"active","meta_purchases":1,"meta_revenue":102.45,"meta_cpr":19.53,"cm_purchases":0,"cm_revenue":0},{"name":"Before and After Img (GL) | CR29 | CO27 | H21","spend":10.02,"reach":464,"impressions":588,"frequency":1.27,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"AF-this close – CA","spend":7.25,"reach":238,"impressions":378,"frequency":1.59,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Callout - Nic","spend":2.42,"reach":120,"impressions":152,"frequency":1.27,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Charlie Easiest Way Video | CR14 | CO14 | H2 – CAN","spend":0.78,"reach":21,"impressions":22,"frequency":1.05,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]},{"name":"Humour | Broad 23-60 | F | CAN","spend":20.95,"reach":526,"impressions":799,"meta_purchases":0,"meta_revenue":0,"cm_purchases":0,"cm_revenue":0,"ads":[{"name":"AF-Legally blonde-CA","spend":20.95,"reach":526,"impressions":799,"frequency":1.52,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]}]},{"name":"AF | UK CBO","spend":440.19,"reach":8738,"impressions":11711,"meta_purchases":10,"meta_revenue":1087.91,"cm_purchases":7,"cm_revenue":613.11,"adsets":[{"name":"Tutorials | Broad | F 23-60 | UK","spend":330.7,"reach":6303,"impressions":7676,"meta_purchases":6,"meta_revenue":589.47,"cm_purchases":3,"cm_revenue":292.13,"ads":[{"name":"Full Tutorial BRoll edit - UK","spend":330.69,"reach":6302,"impressions":7675,"frequency":1.22,"delivery":"active","meta_purchases":6,"meta_revenue":589.47,"meta_cpr":55.12,"cm_purchases":3,"cm_revenue":292.13},{"name":"TOF_Replying to comment","spend":0.01,"reach":1,"impressions":1,"frequency":1.0,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]},{"name":"Best Performers | Broad | F | UK","spend":109.49,"reach":2435,"impressions":4035,"meta_purchases":2,"meta_revenue":321.57,"cm_purchases":4,"cm_revenue":320.98,"ads":[{"name":"AF-FB Comment - UK","spend":40.17,"reach":1008,"impressions":1886,"frequency":1.87,"delivery":"active","meta_purchases":2,"meta_revenue":321.57,"meta_cpr":20.08,"cm_purchases":2,"cm_revenue":108.74},{"name":"TOF_Replying to comment","spend":36.32,"reach":490,"impressions":990,"frequency":2.02,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":2,"cm_revenue":212.24},{"name":"TOF Glasses","spend":17.35,"reach":450,"impressions":553,"frequency":1.23,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Us v Them - Kylie","spend":8.11,"reach":291,"impressions":376,"frequency":1.29,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"TOF_Cotton Pad Graveyard","spend":4.06,"reach":144,"impressions":172,"frequency":1.19,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Wig Danny POV Overlay CC – Copy","spend":3.48,"reach":52,"impressions":58,"frequency":1.12,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]},{"name":"Warm + Retargeting | UK","spend":0,"reach":0,"impressions":0,"meta_purchases":1,"meta_revenue":108.95,"cm_purchases":0,"cm_revenue":0,"ads":[{"name":"Waterproof 30% OFF","spend":0,"reach":0,"impressions":0,"frequency":0,"delivery":"inactive","meta_purchases":1,"meta_revenue":108.95,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]},{"name":"Proof | Broad | F 23-60 | UK","spend":0,"reach":0,"impressions":0,"meta_purchases":1,"meta_revenue":67.92,"cm_purchases":0,"cm_revenue":0,"ads":[{"name":"AF-FB Comment - UK","spend":0,"reach":0,"impressions":0,"frequency":0,"delivery":"inactive","meta_purchases":1,"meta_revenue":67.92,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]}]},{"name":"AF | AUS CBO","spend":362.29,"reach":9114,"impressions":11616,"meta_purchases":4,"meta_revenue":303.08,"cm_purchases":3,"cm_revenue":152.72,"adsets":[{"name":"Adv+ AUS (excl. existing customers)","spend":362.29,"reach":9114,"impressions":11616,"meta_purchases":4,"meta_revenue":303.08,"cm_purchases":3,"cm_revenue":152.72,"ads":[{"name":"Charlie Bat Wing Hooded Eyes | CR38 | CO34 | H26 – Copy","spend":192.67,"reach":5100,"impressions":6401,"frequency":1.26,"delivery":"active","meta_purchases":1,"meta_revenue":81.86,"meta_cpr":192.67,"cm_purchases":0,"cm_revenue":0},{"name":"Charlie Activities Video | CR13 | CO13 | H12 – Copy","spend":88.04,"reach":2122,"impressions":2382,"frequency":1.12,"delivery":"active","meta_purchases":1,"meta_revenue":73.86,"meta_cpr":88.04,"cm_purchases":1,"cm_revenue":73.86},{"name":"Birthday Sale Video | CR43 | CO37 | H27","spend":28.29,"reach":700,"impressions":1161,"frequency":1.66,"delivery":"active","meta_purchases":1,"meta_revenue":68.5,"meta_cpr":28.29,"cm_purchases":0,"cm_revenue":0},{"name":"You deserve eyeliner this easy | CR20 | CO20 | H17 – Copy","spend":16.73,"reach":390,"impressions":591,"frequency":1.52,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Try me Kit | CR47 | CO43 | H31","spend":16.34,"reach":301,"impressions":504,"frequency":1.67,"delivery":"active","meta_purchases":1,"meta_revenue":78.86,"meta_cpr":16.34,"cm_purchases":2,"cm_revenue":78.86},{"name":"Birthday Sale Text | CR42 | CO39 | H27","spend":4.89,"reach":112,"impressions":144,"frequency":1.29,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Never Struggle Again Product Image | CR17 | CO17 | H15 – Copy","spend":3.72,"reach":104,"impressions":128,"frequency":1.23,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Charlie Easiest Way Video | CR14 | CO14 | H2 – Copy","spend":3.36,"reach":54,"impressions":55,"frequency":1.02,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Those who gave up on winged liner | CR44 | CO40 | H28","spend":2.3,"reach":82,"impressions":85,"frequency":1.04,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Before and After Img (GL) | CR29 | CO27 | H21","spend":2.11,"reach":75,"impressions":80,"frequency":1.07,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Jessie Video 1 | CR23 | CO23 | H19 – Copy 2","spend":0.69,"reach":8,"impressions":9,"frequency":1.12,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Tianna Video | CR07 | CO07 | H7 – Copy","spend":0.59,"reach":15,"impressions":15,"frequency":1.0,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Charlie Are You Still Video | CR35 | CO31 | H20 – Copy","spend":0.55,"reach":12,"impressions":13,"frequency":1.08,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"You're This Close Img (GL) | CR30 | CO28 | H22","spend":0.42,"reach":4,"impressions":5,"frequency":1.25,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Way to get perfect winged liner | CR45 | CO41 | H29","spend":0.41,"reach":4,"impressions":5,"frequency":1.25,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Winning Lotto Review | CR46 | CO42 | H30","spend":0.27,"reach":9,"impressions":15,"frequency":1.67,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Jessie Video 2 | CR24 | CO23 | H19 – Copy 2","spend":0.26,"reach":5,"impressions":6,"frequency":1.2,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"What I ordered V what I got | CR15 | CO15 | H13 – Copy","spend":0.25,"reach":4,"impressions":4,"frequency":1.0,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Charlie Tutorial Video | CR37 | CO33 | H25 – Copy","spend":0.19,"reach":3,"impressions":3,"frequency":1.0,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Chayce Video | CR03 | CO03 | H1 – Copy","spend":0.18,"reach":8,"impressions":8,"frequency":1.0,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Charlie Why.. Video | CR33 | CO35 | H18","spend":0.03,"reach":2,"impressions":2,"frequency":1.0,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]}]},{"name":"MOF BOF Adv+ US","spend":375.61,"reach":4002,"impressions":6319,"meta_purchases":3,"meta_revenue":279.13,"cm_purchases":0,"cm_revenue":0,"adsets":[{"name":"Warm + Retargeting | US","spend":375.61,"reach":4002,"impressions":6319,"meta_purchases":3,"meta_revenue":279.13,"cm_purchases":0,"cm_revenue":0,"ads":[{"name":"Bday Cake 30% Off","spend":162.03,"reach":1520,"impressions":2579,"frequency":1.7,"delivery":"active","meta_purchases":2,"meta_revenue":219.81,"meta_cpr":81.02,"cm_purchases":0,"cm_revenue":0},{"name":"Waterproof 30% OFF","spend":154.23,"reach":1716,"impressions":2811,"frequency":1.64,"delivery":"active","meta_purchases":1,"meta_revenue":59.32,"meta_cpr":154.23,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Sophie Easy v Hard Video | CR10 | CO10 | H9","spend":25.98,"reach":263,"impressions":314,"frequency":1.19,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Never Struggle Again Product Image | CR17 | CO17 | H15","spend":25.74,"reach":381,"impressions":474,"frequency":1.24,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Guideliner Reddit Comment | CR09 | CO09 | H8 – Copy","spend":7.63,"reach":122,"impressions":141,"frequency":1.16,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]}]},{"name":"TEST | US ABO","spend":186.8,"reach":2188,"impressions":2291,"meta_purchases":2,"meta_revenue":201.66,"cm_purchases":1,"cm_revenue":115.24,"adsets":[{"name":"Test 1","spend":39.08,"reach":443,"impressions":443,"meta_purchases":0,"meta_revenue":0,"cm_purchases":0,"cm_revenue":0,"ads":[{"name":"US | Founder | Danny | BoldVisual | Broad | Video | CC | V1","spend":39.08,"reach":443,"impressions":443,"frequency":1.0,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]},{"name":"Test 5","spend":38.06,"reach":397,"impressions":433,"meta_purchases":0,"meta_revenue":0,"cm_purchases":0,"cm_revenue":0,"ads":[{"name":"US | Review | None | BoldClaim | Broad | Static | V1","spend":38.06,"reach":397,"impressions":433,"frequency":1.09,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]},{"name":"Test 2","spend":37.5,"reach":365,"impressions":397,"meta_purchases":0,"meta_revenue":0,"cm_purchases":0,"cm_revenue":0,"ads":[{"name":"US | UGC | Chayce | One take | Broad | Video | CC | V1","spend":37.5,"reach":365,"impressions":397,"frequency":1.09,"delivery":"active","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]},{"name":"Test 4","spend":36.45,"reach":552,"impressions":571,"meta_purchases":1,"meta_revenue":85.57,"cm_purchases":0,"cm_revenue":0,"ads":[{"name":"US | Comparison | Professional | Testhook | Hacks | Video | NoCC | V1","spend":36.45,"reach":552,"impressions":571,"frequency":1.03,"delivery":"active","meta_purchases":1,"meta_revenue":85.57,"meta_cpr":36.45,"cm_purchases":0,"cm_revenue":0}]},{"name":"Test 3","spend":35.71,"reach":431,"impressions":447,"meta_purchases":1,"meta_revenue":116.09,"cm_purchases":1,"cm_revenue":115.24,"ads":[{"name":"US | ProductTest | Charlie | Test | Waterproof | Video | CC | V1","spend":35.51,"reach":426,"impressions":441,"frequency":1.04,"delivery":"active","meta_purchases":1,"meta_revenue":116.09,"meta_cpr":35.51,"cm_purchases":1,"cm_revenue":115.24},{"name":"US | ProductTest | Charlie | Test | Waterproof | Video | CC | V1","spend":0.2,"reach":5,"impressions":6,"frequency":1.2,"delivery":"archived","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]}]},{"name":"TOF AUS - BRM","spend":51.25,"reach":1083,"impressions":1179,"meta_purchases":0,"meta_revenue":0,"cm_purchases":0,"cm_revenue":0,"adsets":[{"name":"Broad | F | AUS","spend":24.49,"reach":613,"impressions":670,"meta_purchases":0,"meta_revenue":0,"cm_purchases":0,"cm_revenue":0,"ads":[{"name":"Those who gave up on winged liner | CR44 | CO40 | H28 – Copy","spend":13.91,"reach":363,"impressions":402,"frequency":1.11,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Way to get perfect winged liner | CR45 | CO41 | H29 – Copy","spend":3.03,"reach":70,"impressions":75,"frequency":1.07,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Jessie Sophie Video 2 | CR25 | CO24 | H20 – Copy","spend":1.91,"reach":38,"impressions":38,"frequency":1.0,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Jessie Video 2 | CR24 | CO23 | H19 – Copy","spend":1.55,"reach":43,"impressions":44,"frequency":1.02,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Winning Lotto Review | CR46 | CO42 | H30 – Copy","spend":1.22,"reach":21,"impressions":23,"frequency":1.1,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Try me Kit | CR47 | CO43 | H31 – Copy","spend":1.04,"reach":33,"impressions":40,"frequency":1.21,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Jessie Video 1 | CR23 | CO23 | H19 – Copy","spend":0.83,"reach":12,"impressions":12,"frequency":1.0,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Before and After Img (GL) | CR29 | CO27 | H21 – Copy","spend":0.68,"reach":23,"impressions":25,"frequency":1.09,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Tianna Video DPA | CR07 | CO07 | H7","spend":0.32,"reach":10,"impressions":11,"frequency":1.1,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]},{"name":"Broad Make Up | F | AUS","spend":26.76,"reach":470,"impressions":509,"meta_purchases":0,"meta_revenue":0,"cm_purchases":0,"cm_revenue":0,"ads":[{"name":"Those who gave up on winged liner | CR44 | CO40 | H28 – Copy","spend":10.56,"reach":189,"impressions":205,"frequency":1.08,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Birthday Sale Text | CR42 | CO39 | H27 – Copy","spend":3.56,"reach":56,"impressions":68,"frequency":1.21,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Charlie Tutorial Video | CR37 | CO33 | H25","spend":3.3,"reach":35,"impressions":36,"frequency":1.03,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Jessie Sophie Video 2 | CR25 | CO24 | H20 – Copy","spend":3.07,"reach":55,"impressions":61,"frequency":1.11,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Charlie Are You Still Video | CR35 | CO31 | H20","spend":1.21,"reach":23,"impressions":25,"frequency":1.09,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Charlie Why.. Video | CR33 | CO30 | H18","spend":1.19,"reach":18,"impressions":18,"frequency":1.0,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Jessie Video 2 | CR24 | CO23 | H19 – Copy","spend":0.71,"reach":20,"impressions":20,"frequency":1.0,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Tianna Video | CR07 | CO07 | H7","spend":0.64,"reach":14,"impressions":14,"frequency":1.0,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Jessie Tiarne Video | CR26 | CO25 | H4 – Copy","spend":0.6,"reach":11,"impressions":11,"frequency":1.0,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Try me Kit | CR47 | CO43 | H31 – Copy","spend":0.56,"reach":16,"impressions":17,"frequency":1.06,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Way to get perfect winged liner | CR45 | CO41 | H29 – Copy","spend":0.35,"reach":10,"impressions":10,"frequency":1.0,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Birthday Sale Image | CR41 | CO38 | H27 – Copy","spend":0.29,"reach":9,"impressions":10,"frequency":1.11,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Birthday Sale Video | CR43 | CO37 | H27 – Copy","spend":0.29,"reach":7,"impressions":7,"frequency":1.0,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Winning Lotto Review | CR46 | CO42 | H30 – Copy","spend":0.18,"reach":2,"impressions":2,"frequency":1.0,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Sophie Why Video | CR34 | CO30 | H18","spend":0.16,"reach":2,"impressions":2,"frequency":1.0,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Sophie Video DPA | CR06 | CO06 | H6 – Copy","spend":0.09,"reach":3,"impressions":3,"frequency":1.0,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]}]},{"name":"MOF BOF Adv+ AUS - BRM","spend":26.16,"reach":524,"impressions":616,"meta_purchases":0,"meta_revenue":0,"cm_purchases":0,"cm_revenue":0,"adsets":[{"name":"Warm + Retargeting | AUS","spend":26.16,"reach":524,"impressions":616,"meta_purchases":0,"meta_revenue":0,"cm_purchases":0,"cm_revenue":0,"ads":[{"name":"Those who gave up on winged liner | CR44 | CO40 | H28 – Copy 2","spend":9.42,"reach":188,"impressions":229,"frequency":1.22,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Birthday Sale Image | CR41 | CO38 | H27 – Copy 2","spend":3.08,"reach":84,"impressions":102,"frequency":1.21,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Birthday Sale Video | CR43 | CO37 | H27 – Copy 2","spend":2.66,"reach":90,"impressions":110,"frequency":1.22,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"UGC Sophie Why Video | CR34 | CO35 | H18 – Copy","spend":2.33,"reach":37,"impressions":41,"frequency":1.11,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"You're This Close Img (GL) | CR30 | CO28 | H22 – Copy","spend":2.21,"reach":16,"impressions":17,"frequency":1.06,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Review Talk through Video | CR16 | CO16 | H14","spend":1.83,"reach":23,"impressions":25,"frequency":1.09,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Try me Kit | CR47 | CO43 | H31 – Copy 2","spend":1.71,"reach":23,"impressions":27,"frequency":1.17,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Way to get perfect winged liner | CR45 | CO41 | H29 – Copy 2","spend":1.64,"reach":44,"impressions":45,"frequency":1.02,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Winning Lotto Review | CR46 | CO42 | H30 – Copy 2","spend":0.95,"reach":14,"impressions":15,"frequency":1.07,"delivery":"not_delivering","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Charlie Why.. Video | CR33 | CO35 | H18 – Copy","spend":0.22,"reach":3,"impressions":3,"frequency":1.0,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0},{"name":"Charlie Are You Still Video | CR35 | CO36 | H20 – Copy","spend":0.11,"reach":2,"impressions":2,"frequency":1.0,"delivery":"inactive","meta_purchases":0,"meta_revenue":0,"meta_cpr":0,"cm_purchases":0,"cm_revenue":0}]}]}];
+
+const CHANNELS=[{"source":"checkmate","label":"checkmate","desc":"Checkmate (other paid)","is_meta":false,"orders":1,"revenue":134.07},{"source":"facebook","label":"facebook","desc":"Facebook profile / organic-looking paid","is_meta":true,"orders":1,"revenue":102.98},{"source":"fb","label":"fb","desc":"Facebook Ads placements","is_meta":true,"orders":18,"revenue":1719.8},{"source":"google","label":"google","desc":"Google Ads","is_meta":false,"orders":4,"revenue":353.93},{"source":"ig","label":"ig","desc":"Instagram Ads placements","is_meta":true,"orders":27,"revenue":2575.71},{"source":"organic","label":"organic","desc":"Direct / organic traffic","is_meta":false,"orders":38,"revenue":3441.9}];
+
+const TOTAL_SPEND=4324.63;
+const TOTAL_CM_REV=8328.39;
+const TOTAL_CM_ORDERS=89;
+const META_SOURCES=['fb','ig','facebook','facebook_ads_ppm','an','th'];
+
+const exp={};
+const $c=(v)=>v>0?'A$'+v.toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
+const $n=(v)=>v>0?v.toLocaleString():'—';
+const $r=(v)=>v>0?v.toFixed(2)+'x':'—';
+const $p=(v)=>v>0?'A$'+v.toFixed(2):'—';
+const $f=(v)=>v>0?v.toFixed(2):'—';
+function rc(r){if(!r||r===0)return 'rb';if(r>=2)return 'rg';if(r>=1)return 'ro';return 'rb';}
+function dlv(s){const m={active:'b-active',inactive:'b-inactive',archived:'b-archived',not_delivering:'b-nd'};return`<span class="badge ${m[s]||'b-nd'}">${s==='not_delivering'?'not del.':s}</span>`;}
+
+function buildChannelTable(){
+  const maxRev=Math.max(...CHANNELS.map(c=>c.revenue));
+  const metaTotalRev=CHANNELS.filter(c=>c.is_meta).reduce((a,c)=>a+c.revenue,0);
+  const metaTotalOrders=CHANNELS.filter(c=>c.is_meta).reduce((a,c)=>a+c.orders,0);
+  const allTotalRev=CHANNELS.reduce((a,c)=>a+c.revenue,0);
+  const allTotalOrders=CHANNELS.reduce((a,c)=>a+c.orders,0);
+
+  let html=`<thead><tr>
+    <th>Source</th>
+    <th>Description <span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-box">utm_source values captured by ClickMagick. Meta sources are tagged blue — these are the ones linked to Meta ad spend.</span></span></th>
+    <th class="num">Orders</th>
+    <th class="num">Revenue (AUD)</th>
+    <th class="num">% of total rev</th>
+    <th class="num">ROAS vs Meta spend <span class="tip-wrap"><span class="tip-icon">?</span><span class="tip-box">Each row's revenue divided by total Meta ad spend (A$4,324.63). This is the blended contribution of each channel to Meta's cost base.</span></span></th>
+    <th>Revenue share</th>
+  </tr></thead><tbody>`;
+
+  CHANNELS.forEach(ch=>{
+    const pct=(ch.revenue/allTotalRev*100).toFixed(1);
+    const roas=(ch.revenue/TOTAL_SPEND).toFixed(2);
+    const barW=Math.round(ch.revenue/maxRev*100);
+    const fillCls=ch.is_meta?'bar-fill-meta':'bar-fill-other';
+    html+=`<tr>
+      <td><span class="src-badge ${ch.is_meta?'src-meta':'src-other'}">${ch.source}</span></td>
+      <td style="color:#556">${ch.desc}${ch.is_meta?' <span style="font-size:9px;color:#1d4ed8">(Meta)</span>':''}</td>
+      <td class="num">${ch.orders}</td>
+      <td class="num">${$c(ch.revenue)}</td>
+      <td class="num">${pct}%</td>
+      <td class="num" style="font-weight:600;color:${ch.revenue/TOTAL_SPEND>=1?'#0a6640':ch.revenue/TOTAL_SPEND>=0.5?'#b36000':'#666'}">${roas}x</td>
+      <td><div class="bar-wrap"><div class="bar-bg"><div class="${fillCls}" style="width:${barW}%"></div></div></div></td>
+    </tr>`;
+  });
+
+  const blendedRoas=(allTotalRev/TOTAL_SPEND).toFixed(2);
+  const metaRoas=(metaTotalRev/TOTAL_SPEND).toFixed(2);
+  html+=`<tr class="ch-total">
+    <td colspan="2" style="font-weight:700">TOTAL — ALL SOURCES</td>
+    <td class="num">${allTotalOrders}</td>
+    <td class="num">${$c(allTotalRev)}</td>
+    <td class="num">100%</td>
+    <td class="num" style="color:#7c4dcc;font-weight:700">${blendedRoas}x blended</td>
+    <td></td>
+  </tr>
+  <tr class="ch-total">
+    <td colspan="2" style="color:#1d4ed8;font-weight:700">META SOURCES ONLY (fb · ig · facebook · an · th)</td>
+    <td class="num">${metaTotalOrders}</td>
+    <td class="num">${$c(metaTotalRev)}</td>
+    <td class="num">${(metaTotalRev/allTotalRev*100).toFixed(1)}%</td>
+    <td class="num" style="color:#0a6640;font-weight:700">${metaRoas}x</td>
+    <td></td>
+  </tr></tbody>`;
+
+  document.getElementById('chTable').innerHTML=html;
+}
+
+function buildKPIs(){
+  const ts=HIER.reduce((a,c)=>a+c.spend,0);
+  const tmp=HIER.reduce((a,c)=>a+c.meta_purchases,0);
+  const tmr=HIER.reduce((a,c)=>a+c.meta_revenue,0);
+  const tcp=HIER.reduce((a,c)=>a+c.cm_purchases,0);
+  const tcr=HIER.reduce((a,c)=>a+c.cm_revenue,0);
+  const tri=HIER.reduce((a,c)=>a+c.reach,0);
+
+  const metaKpis=[
+    {l:'Spend (AUD)',v:'A$'+ts.toFixed(2),s:'Meta Ads Manager',cls:'meta'},
+    {l:'Purchases',v:tmp,s:'7-day click + 1-day view',cls:'meta'},
+    {l:'Revenue',v:'A$'+tmr.toFixed(2),s:'Actual reported by Meta',cls:'meta'},
+    {l:'ROAS',v:(tmr/ts).toFixed(2)+'x',s:'Meta attributed',cls:'meta'},
+    {l:'CPR',v:'A$'+(ts/tmp).toFixed(2),s:'Cost per reported purchase',cls:'meta'},
+    {l:'AOV',v:'A$'+(tmr/tmp).toFixed(2),s:'Per Meta purchase',cls:'meta'},
+  ];
+  document.getElementById('kpisMeta').innerHTML=metaKpis.map(k=>`<div class="kpi ${k.cls}"><div class="kpi-label">${k.l}</div><div class="kpi-value">${k.v}</div><div class="kpi-sub">${k.s}</div></div>`).join('');
+
+  const cmMetaRev=CHANNELS.filter(c=>c.is_meta).reduce((a,c)=>a+c.revenue,0);
+  const cmMetaOrders=CHANNELS.filter(c=>c.is_meta).reduce((a,c)=>a+c.orders,0);
+  const blendedRoas=TOTAL_CM_REV/TOTAL_SPEND;
+
+  const cmKpis=[
+    {l:'CM Purchases (Meta)',v:tcp,s:'fb · ig · facebook · an · th',cls:'cm-meta'},
+    {l:'CM Revenue (Meta)',v:'A$'+tcr.toFixed(2),s:'Last-click, Meta ad sources',cls:'cm-meta'},
+    {l:'CM ROAS (Meta)',v:(tcr/ts).toFixed(2)+'x',s:'Last-click vs Meta spend',cls:'cm-meta'},
+    {l:'CM Revenue (all sources)',v:'A$'+TOTAL_CM_REV.toFixed(2),s:'Every CM channel',cls:'blended'},
+    {l:'Blended ROAS',v:blendedRoas.toFixed(2)+'x',s:'All CM rev ÷ Meta spend',cls:'blended'},
+    {l:'CM Orders (all)',v:TOTAL_CM_ORDERS,s:'Organic + paid combined',cls:'blended'},
+  ];
+  document.getElementById('kpisCM').innerHTML=cmKpis.map(k=>`<div class="kpi ${k.cls}"><div class="kpi-label">${k.l}</div><div class="kpi-value">${k.v}</div><div class="kpi-sub">${k.s}</div></div>`).join('');
+}
+
+function sortArr(arr,col,dir){
+  return arr.slice().sort((a,b)=>{
+    let av=0,bv=0;
+    if(col==='meta_roas'){av=a.spend>0?a.meta_revenue/a.spend:0;bv=b.spend>0?b.meta_revenue/b.spend:0;}
+    else if(col==='cm_roas'){av=a.spend>0?a.cm_revenue/a.spend:0;bv=b.spend>0?b.cm_revenue/b.spend:0;}
+    else{av=a[col]||0;bv=b[col]||0;}
+    return dir==='desc'?bv-av:av-bv;
+  });
+}
+
+function render(){
+  const col=document.getElementById('sortCol').value;
+  const dir=document.getElementById('sortDir').value;
+  const cf=document.getElementById('campFilter').value;
+  const ms=parseFloat(document.getElementById('minSpend').value)||0;
+  const hz=document.getElementById('hideZero').checked;
+  const ea=document.getElementById('expandAll').checked;
+
+  let data=HIER.filter(c=>(!cf||c.name===cf)&&c.spend>=ms);
+  data=sortArr(data,col,dir);
+
+  let html='';
+  let ts=0,tr=0,ti=0,tmp=0,tmr=0,tcp=0,tcr=0;
+
+  data.forEach((c,ci)=>{
+    const cid='c'+ci;
+    const open=ea||exp[cid];
+    const mroas=c.spend>0&&c.meta_revenue>0?c.meta_revenue/c.spend:0;
+    const croas=c.spend>0&&c.cm_revenue>0?c.cm_revenue/c.spend:0;
+    const maov=c.meta_purchases>0?c.meta_revenue/c.meta_purchases:0;
+    const caov=c.cm_purchases>0?c.cm_revenue/c.cm_purchases:0;
+    ts+=c.spend;tr+=c.reach;ti+=c.impressions;tmp+=c.meta_purchases;tmr+=c.meta_revenue;tcp+=c.cm_purchases;tcr+=c.cm_revenue;
+
+    html+=`<tr class="level-campaign">
+      <td class="name-cell"><button class="expand-btn" onclick="tog('${cid}')">${open?'▾':'▸'}</button>${c.name}<span class="pill">${c.adsets.length}as</span></td>
+      <td class="num">${$c(c.spend)}</td><td class="num">${$n(c.reach)}</td><td class="num">${$n(c.impressions)}</td>
+      <td class="num">—</td><td class="num">—</td>
+      <td class="num div-m">${c.meta_purchases||'—'}</td><td class="num">${$c(c.meta_revenue)}</td>
+      <td class="num ${rc(mroas)}">${$r(mroas)}</td><td class="num">—</td><td class="num">${$p(maov)}</td>
+      <td class="num div-c">${c.cm_purchases||'—'}</td><td class="num">${$c(c.cm_revenue)}</td>
+      <td class="num ${rc(croas)}">${$r(croas)}</td><td class="num">—</td><td class="num">${$p(caov)}</td>
+    </tr>`;
+
+    if(open){
+      sortArr(c.adsets,col,dir).forEach((a,ai)=>{
+        const asid=cid+'_'+ai;
+        const aopen=ea||exp[asid];
+        const amroas=a.spend>0&&a.meta_revenue>0?a.meta_revenue/a.spend:0;
+        const acroas=a.spend>0&&a.cm_revenue>0?a.cm_revenue/a.spend:0;
+        const amaov=a.meta_purchases>0?a.meta_revenue/a.meta_purchases:0;
+        const acaov=a.cm_purchases>0?a.cm_revenue/a.cm_purchases:0;
+        html+=`<tr class="level-adset">
+          <td class="name-cell"><button class="expand-btn" onclick="tog('${asid}')">${aopen?'▾':'▸'}</button>${a.name}<span class="pill pg">${a.ads.length}ads</span></td>
+          <td class="num">${$c(a.spend)}</td><td class="num">${$n(a.reach)}</td><td class="num">${$n(a.impressions)}</td>
+          <td class="num">—</td><td class="num">—</td>
+          <td class="num div-m">${a.meta_purchases||'—'}</td><td class="num">${$c(a.meta_revenue)}</td>
+          <td class="num ${rc(amroas)}">${$r(amroas)}</td><td class="num">—</td><td class="num">${$p(amaov)}</td>
+          <td class="num div-c">${a.cm_purchases||'—'}</td><td class="num">${$c(a.cm_revenue)}</td>
+          <td class="num ${rc(acroas)}">${$r(acroas)}</td><td class="num">—</td><td class="num">${$p(acaov)}</td>
+        </tr>`;
+
+        if(aopen){
+          let ads=sortArr(a.ads,col,dir);
+          if(hz)ads=ads.filter(ad=>ad.spend>0);
+          ads.forEach(ad=>{
+            const adm=ad.spend>0&&ad.meta_revenue>0?ad.meta_revenue/ad.spend:0;
+            const adc=ad.spend>0&&ad.cm_revenue>0?ad.cm_revenue/ad.spend:0;
+            const admcpa=ad.meta_purchases>0?ad.spend/ad.meta_purchases:0;
+            const adccpa=ad.cm_purchases>0?ad.spend/ad.cm_purchases:0;
+            const admaov=ad.meta_purchases>0?ad.meta_revenue/ad.meta_purchases:0;
+            const adcaov=ad.cm_purchases>0?ad.cm_revenue/ad.cm_purchases:0;
+            html+=`<tr class="level-ad">
+              <td class="name-cell">${ad.name}${dlv(ad.delivery)}</td>
+              <td class="num">${$c(ad.spend)}</td><td class="num">${$n(ad.reach)}</td><td class="num">${$n(ad.impressions)}</td>
+              <td class="num">${$f(ad.frequency)}</td><td class="num">—</td>
+              <td class="num div-m">${ad.meta_purchases||'—'}</td><td class="num">${$c(ad.meta_revenue)}</td>
+              <td class="num ${rc(adm)}">${$r(adm)}</td><td class="num">${$p(ad.meta_cpr||0)}</td><td class="num">${$p(admaov)}</td>
+              <td class="num div-c">${ad.cm_purchases||'—'}</td><td class="num">${$c(ad.cm_revenue)}</td>
+              <td class="num ${rc(adc)}">${$r(adc)}</td><td class="num">${$p(adccpa)}</td><td class="num">${$p(adcaov)}</td>
+            </tr>`;
+          });
+        }
+      });
+    }
+  });
+
+  const tmroas=ts>0?tmr/ts:0;
+  const tcroas=ts>0?tcr/ts:0;
+  const tmaov=tmp>0?tmr/tmp:0;
+  const tcaov=tcp>0?tcr/tcp:0;
+  html+=`<tr class="total-row">
+    <td>TOTAL (filtered)</td>
+    <td class="num">${$c(ts)}</td><td class="num">${$n(tr)}</td><td class="num">${$n(ti)}</td>
+    <td class="num">—</td><td class="num">—</td>
+    <td class="num div-m">${tmp}</td><td class="num">${$c(tmr)}</td>
+    <td class="num ${rc(tmroas)}">${$r(tmroas)}</td><td class="num">—</td><td class="num">${$p(tmaov)}</td>
+    <td class="num div-c">${tcp}</td><td class="num">${$c(tcr)}</td>
+    <td class="num ${rc(tcroas)}">${$r(tcroas)}</td><td class="num">—</td><td class="num">${$p(tcaov)}</td>
+  </tr>`;
+
+  document.getElementById('tbody').innerHTML=html;
+}
+
+function tog(id){exp[id]=!exp[id];document.getElementById('expandAll').checked=false;render();}
+function toggleExpandAll(){const ea=document.getElementById('expandAll').checked;Object.keys(exp).forEach(k=>exp[k]=ea);render();}
+
+function init(){
+  buildChannelTable();
+  buildKPIs();
+  const sel=document.getElementById('campFilter');
+  HIER.forEach(c=>{const o=document.createElement('option');o.value=c.name;o.text=c.name;sel.appendChild(o);});
+  render();
+}
+init();
+</script>
+</body>
+</html>
